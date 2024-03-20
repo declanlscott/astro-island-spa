@@ -1,4 +1,5 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { useLayoutEffect, useState } from "react";
 
 import { routeTree } from "~/dashboard/routeTree.gen";
 
@@ -13,10 +14,25 @@ declare module "@tanstack/react-router" {
   }
 }
 
-export function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+type AppProps = { debounceMs?: number };
+
+export function App(props: AppProps) {
+  const { debounceMs = 500 } = props;
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Debounce the app loading indicator to prevent flickering
+  useLayoutEffect(() => {
+    const timeout = setTimeout(() => {
+      document
+        .getElementById("app-loading-indicator")
+        ?.style.setProperty("display", "none");
+
+      setIsVisible(true);
+    }, debounceMs);
+
+    return () => clearTimeout(timeout);
+  }, [debounceMs]);
+
+  return <>{isVisible && <RouterProvider router={router} />}</>;
 }
