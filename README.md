@@ -1,3 +1,5 @@
+## Read my accompanying [blog post](https://declanlscott.com/blog/react-spa-in-astro-with-tanstack-router/)
+
 # Astro Starter Kit: Minimal
 
 ```sh
